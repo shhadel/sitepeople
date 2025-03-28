@@ -1,0 +1,12 @@
+{% extends 'people/base.html' %}
+{% block title %}Регистрация - Borntoday.ru{% endblock %}
+
+{% block content %}
+<h4 class="mb-3">Регистрация</h4>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+</form>
+<p class="mt-3">Уже есть аккаунт? <a href="{% url 'login' %}">Войдите</a>.</p>
+{% endblock %}
