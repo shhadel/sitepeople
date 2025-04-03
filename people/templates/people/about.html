@@ -2,8 +2,44 @@
 {% block title %}{{ title }} - Borntoday.ru{% endblock %}
 
 {% block content %}
-<h3>О сайте</h3>
-<p>
-{{ description  }}
-<p>
+<div class="row">
+    <div class="col-md-12">
+        <h1>{{ title }}</h1>
+        <p class="lead">{{ description }}</p>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Статистика сайта</h2>
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <div class="stat-card bg-primary text-white p-3 rounded mb-3">
+                            <h3>{{ stats.stars_count }}</h3>
+                            <p class="mb-0">Знаменитостей</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card bg-success text-white p-3 rounded mb-3">
+                            <h3>{{ stats.countries_count }}</h3>
+                            <p class="mb-0">Стран</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card bg-info text-white p-3 rounded mb-3">
+                            <h3>{{ stats.categories_count }}</h3>
+                            <p class="mb-0">Видов деятельности</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">О проекте</h2>
+                <p>Этот сайт посвящен знаменитостям и их дням рождения. Здесь вы можете найти информацию о различных актерах, музыкантах, спортсменах и других известных личностях.</p>
+                <p>Все данные регулярно обновляются. Статистика на этой странице отображается в реальном времени.</p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'people/base.html' %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Карта сайта</h1>
+<h3 class="mb-3">Список всех знаменитостей</h3>
+
+<!-- Алфавитная навигация -->
+<div class="alphabet-nav mb-4">
+    {% for letter in alphabet %}
+        {% if letter in available_letters %}
+            <a href="{% url 'sitemap_letter' letter %}" class="btn btn-outline-primary btn-sm">
+                {{ letter }}
+            </a>
+        {% else %}
+            <span class="btn btn-outline-secondary btn-sm disabled">
+                {{ letter }}
+            </span>
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% if stars %}
+    <div class="list-group">
+        {% for star in stars %}
+            <a href="{% url 'person' star.slug %}" class="list-group-item list-group-item-action">
+                {{ star.name }} ({{ star.birth_date|date:"Y" }}) -
+                {% for category in star.categories.all %}
+                    {{ category.title }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-warning">
+        Нет знаменитостей в базе данных.
+    </div>
+{% endif %}
+{% endblock %}

@@ -11,7 +11,7 @@
     {% endif %}
     <p class="card-text">
       <strong>Дата рождения:</strong> {{ star.birth_date|date:"d E Y" }}<br>
-      <strong>Возраст:</strong> {{ star.get_age }} лет<br>
+      <strong>Возраст:</strong> {{ star.get_age_with_correct_word }}<br>
       <strong>Страна:</strong> {{ star.country.name }}<br>
       <strong>Вид деятельности:</strong>
       {% for category in star.categories.all %}
@@ -22,6 +22,7 @@
       <em>{{ star.content }}</em>
     </p>
     <a href="{% url 'index' %}" class="btn btn-primary">Вернуться к списку</a>
+    <a href="{% url 'sitemap' %}" class="btn btn-primary">Вернуться к карте сайта</a>
   </div>
 </div>
 {% endblock %}

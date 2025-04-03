@@ -14,4 +14,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='people/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('register/', views.register, name='register'),
+
+    path('sitemap/', views.sitemap, name='sitemap'),
+    path('sitemap/<str:letter>/', views.sitemap_letter, name='sitemap_letter'),
 ]

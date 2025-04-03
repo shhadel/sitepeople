@@ -77,6 +77,11 @@ def about(request):
     """
     Страница «О сайте».
     """
+    stats = {
+        'stars_count': Star.objects.filter(is_published=True).count(),
+        'countries_count': Country.objects.count(),
+        'categories_count': Category.objects.count(),
+    }
     # Получаем все страны и категории для меню
     countries = Country.objects.all()
     categories = Category.objects.all()
@@ -84,6 +89,7 @@ def about(request):
     context = {
         'title': 'О сайте',
         'description': 'Сайт создан в учебных целях. Данные сгенерированы нейросетью.',
+        'stats': stats,
         'star_countries': countries,
         'star_categories': categories,
     }
@@ -166,3 +172,54 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'people/register.html', {'form': form})
 
+RUSSIAN_ALPHABET = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ'
+
+def get_available_letters():
+    available_letters = []
+    for letter in RUSSIAN_ALPHABET:
+        if Star.objects.filter(is_published=True, name__istartswith=letter).exists():
+            available_letters.append(letter)
+    return available_letters
+
+def sitemap(request):
+    #Карта сайта со списком всех знаменитостей
+    stars = Star.objects.filter(is_published=True).order_by('name')
+    available_letters = get_available_letters()
+
+    # Получаем все страны и категории для меню
+    countries = Country.objects.all()
+    categories = Category.objects.all()
+
+    context = {
+        'stars': stars,
+        'alphabet': RUSSIAN_ALPHABET,
+        'available_letters': available_letters,
+        'star_countries': countries,
+        'star_categories': categories,
+        'title': 'Карта сайта'
+    }
+    return render(request, 'people/sitemap.html', context)
+
+
+def sitemap_letter(request, letter):
+    #Карта сайта с фильтрацией по первой букве имени
+    letter = letter.upper()  # Приводим к верхнему регистру
+    stars = Star.objects.filter(
+        is_published=True,
+        name__istartswith=letter
+    ).order_by('name')
+
+    available_letters = get_available_letters()
+    countries = Country.objects.all()
+    categories = Category.objects.all()
+
+    context = {
+        'stars': stars,
+        'current_letter': letter,
+        'alphabet': RUSSIAN_ALPHABET,
+        'available_letters': available_letters,
+        'star_countries': countries,
+        'star_categories': categories,
+        'title': f'Знаменитости на букву {letter}'
+    }
+    return render(request, 'people/sitemap_letter.html', context)
