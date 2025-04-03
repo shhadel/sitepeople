@@ -72,13 +72,14 @@
 
 <h4 class="mt-5 mb-3">Все знаменитости</h4>
 {% for star in stars %}
-  <div class="card mb-3">
+  <div class="card mb-3 {% if not star.is_alive %}border-0 border-start border-5 border-dark{% endif %}">
     <div class="card-body">
       <h5 class="card-title">
-        <a href="{% url 'person' star.slug %}">{{ star.name }}</a> ({{ star.get_age_with_correct_word }})
+        <a href="{% url 'person' star.slug %}" class="{% if not star.is_alive %}text-muted{% endif %}">{{ star.name }}</a> ({{ star.get_age_with_correct_word }})
       </h5>
       <p class="card-text">
         <strong>Дата рождения:</strong> {{ star.birth_date|date:"d E Y" }}<br>
+        <strong>Годы жизни:</strong> {{ star.get_lifespan }}<br>
         <strong>Страна:</strong> {{ star.country.name }}<br>
         <strong>Вид деятельности:</strong>
         {% for category in star.categories.all %}

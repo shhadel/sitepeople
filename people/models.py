@@ -68,14 +68,31 @@ class Star(models.Model):
     def __str__(self):
         return self.name
 
+    death_date = models.DateField(
+        'Дата смерти',
+        null=True,
+        blank=True,
+        help_text='Оставьте пустым для живых знаменитостей'
+    )
+
+    def is_alive(self):
+        return self.death_date is None
+
     def get_age(self):
-        """Вычисляет возраст звезды на основе даты рождения."""
         today = date.today()
-        age = today.year - self.birth_date.year
-        # Если день рождения еще не наступил в этом году, вычитаем один год
-        if (today.month, today.day) < (self.birth_date.month, self.birth_date.day):
+        reference_date = self.death_date if not self.is_alive() else today
+
+        age = reference_date.year - self.birth_date.year
+        if (reference_date.month, reference_date.day) < (self.birth_date.month, self.birth_date.day):
             age -= 1
         return age
+
+    def get_lifespan(self):
+        """Возвращает годы жизни в формате 'YYYY-YYYY' или 'YYYY-настоящее время'"""
+        birth_year = self.birth_date.year
+        if self.is_alive():
+            return f"{birth_year}"
+        return f"{birth_year}-{self.death_date.year}"
 
     def get_age_with_correct_word(self):
         """Возвращает возраст с правильно склоненным словом 'год'"""

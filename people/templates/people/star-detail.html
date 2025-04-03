@@ -10,8 +10,17 @@
       <img src="{{ star.photo.url }}" alt="{{ star.name }}" class="img-fluid mb-3" style="max-height: 300px;">
     {% endif %}
     <p class="card-text">
-      <strong>Дата рождения:</strong> {{ star.birth_date|date:"d E Y" }}<br>
-      <strong>Возраст:</strong> {{ star.get_age_with_correct_word }}<br>
+      <strong>Годы жизни:</strong> {{ star.get_lifespan }}<br>
+            <strong>Возраст:</strong> {{ star.get_age_with_correct_word }}
+            {% if not star.is_alive %}
+                <span class="badge bg-secondary">Умер(ла)</span><br>
+            {% endif %}
+
+            <strong>Дата рождения:</strong> {{ star.birth_date|date:"d E Y" }}<br>
+
+            {% if star.death_date %}
+                <strong>Дата смерти:</strong> {{ star.death_date|date:"d E Y" }}<br>
+            {% endif %}
       <strong>Страна:</strong> {{ star.country.name }}<br>
       <strong>Вид деятельности:</strong>
       {% for category in star.categories.all %}

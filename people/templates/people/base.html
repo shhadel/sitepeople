@@ -1,46 +1,54 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="h-100">
 <head>
   <meta charset="utf-8">
   <link rel="shortcut icon" href="{% static 'favicon.png' %}">
-  <!-- Динамический заголовок -->
   <title>{% block title %}Borntoday.ru{% endblock %}</title>
-  <!-- Bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .content-wrapper {
+      flex: 1 0 auto;
+    }
+  </style>
 </head>
-<body>
+<body class="d-flex flex-column h-100">
 
-<!-- Включаем фрагмент шапки -->
-{% include 'people/header.html' %}
+  <!-- Включаем фрагмент шапки -->
+  {% include 'people/header.html' %}
 
-<main class="container my-4">
-  <div class="row">
-    <!-- Основная колонка -->
-    <div class="col-md-9">
-      {% if messages %}
-        <div class="messages">
-          {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-              {{ message }}
+  <div class="content-wrapper">
+    <main class="container my-4">
+      <div class="row">
+        <div class="col-md-9">
+          {% if messages %}
+            <div class="messages">
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
             </div>
-          {% endfor %}
+          {% endif %}
+          {% block content %}
+          <!-- Контент каждой страницы -->
+          {% endblock %}
         </div>
-      {% endif %}
-      {% block content %}
-      <!-- Контент каждой страницы -->
-      {% endblock %}
-    </div>
 
-    <!-- Боковая колонка (включаем фрагмент) -->
-    {% include 'people/sidebar.html' %}
+        <!-- Боковая колонка -->
+        {% include 'people/sidebar.html' %}
+      </div>
+    </main>
   </div>
-</main>
 
-<!-- Включаем фрагмент футера -->
-{% include 'people/footer.html' %}
+  <!-- Включаем фрагмент футера -->
+  {% include 'people/footer.html' %}
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

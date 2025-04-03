@@ -5,11 +5,11 @@
 <h4 class="mb-3">{{ title_template }}: {{ country_name }}</h4>
 {% if stars %}
  {% for star in stars %}
-   <div class="card mb-3">
+   <div class="card mb-3 {% if not star.is_alive %}border-0 border-start border-5 border-dark{% endif %}">
      <div class="card-body">
        <h5 class="card-title">
-         <a href="{% url 'person' star.slug %}">{{ star.name }}</a> ({{ star.get_age }} лет)
-       </h5>
+        <a href="{% url 'person' star.slug %}" class="{% if not star.is_alive %}text-muted{% endif %}">{{ star.name }}</a> ({{ star.get_age_with_correct_word }})
+      </h5>
        <p class="card-text">
          <strong>Дата рождения:</strong> {{ star.birth_date|date:"d E Y" }}<br>
          <strong>Вид деятельности:</strong>
